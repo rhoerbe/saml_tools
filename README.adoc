@@ -1,0 +1,5 @@
+= SAML Tracer Reporting
+
+The SAML Tracre Add-On for Firefox can export trace data as JSON.
+
+This script reads a trace file and does some reduction, filtering and formatting to produce text output.
