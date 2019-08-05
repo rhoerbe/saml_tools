@@ -30,6 +30,9 @@ def get_args():
         type=int,
         help='Remove arg and cookie values if longer than this value')
     parser.add_argument(
+        '-x', '--expand_urlparam', dest='expand_urlparam',
+        help='show this URL parameter/value in extra line')
+    parser.add_argument(
         '-s', '--no-static', dest='filter_static', action="store_true",
         help='skip GET for resources ending with .ico, .jpg, .png, .css, ico')
     parser.add_argument(
@@ -82,7 +85,11 @@ def format_request(req):
             params = ';' + u.params if u.params else ''
             query_args = parse_qs(u.query)
             query_shortened = '  '.join(list(map(shorten_query_arg, query_args.items())))
-            return u.netloc + u.path + params + ' ' + query_shortened
+            if args.expand_urlparam and args.expand_urlparam in query_args:
+                extra_param = f"\n     {args.expand_urlparam}={query_args[args.expand_urlparam]}"
+            else:
+                extra_param = ''
+            return u.netloc + u.path + params + ' ' + query_shortened + extra_param
 
     if args.filter_static and \
         req['method'] == 'GET' and \
