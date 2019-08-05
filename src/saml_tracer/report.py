@@ -27,7 +27,7 @@ def get_args():
         help='Print requestID')
     parser.add_argument(
         '-m', '--max-length', dest='max_length', default=100,
-        type=int, choices=range(10, 1000),
+        type=int,
         help='Remove arg and cookie values if longer than this value')
     parser.add_argument(
         '-s', '--no-static', dest='filter_static', action="store_true",
@@ -82,7 +82,7 @@ def format_request(req):
             params = ';' + u.params if u.params else ''
             query_args = parse_qs(u.query)
             query_shortened = '  '.join(list(map(shorten_query_arg, query_args.items())))
-            return u.netloc + u.path + params + query_shortened
+            return u.netloc + u.path + params + ' ' + query_shortened
 
     if args.filter_static and \
         req['method'] == 'GET' and \
